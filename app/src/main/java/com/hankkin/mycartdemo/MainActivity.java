@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
                 params.leftMargin = x - 100;
                 if (x - 100 < 0) {
                     params.leftMargin = 0;
-                } else if (x - 100 > relativeLayout.getWidth() - llSingle.getMeasuredWidth()) {
-                    params.leftMargin = relativeLayout.getWidth() - llSingle.getMeasuredWidth();
+                } else if (x - 100 > rlSingle.getWidth() - llSingle.getMeasuredWidth()) {
+                    params.leftMargin = rlSingle.getWidth() - llSingle.getMeasuredWidth();
                 }
 
                 llSingle.setLayoutParams(params);

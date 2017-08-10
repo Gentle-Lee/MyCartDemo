@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SingleView extends View {
 
-    private Paint mPaint, mChartPaint;
+    private Paint yPaint, xPaint, mChartPaint;
     private Rect mBound;
     private int mStartWidth, mHeight, mWidth, mChartWidth, mSize;
     private int lineColor, leftColor, lefrColorBottom,selectLeftColor;
@@ -113,8 +113,10 @@ public class SingleView extends View {
     }
 
     private void init() {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
+        xPaint = new Paint();
+        xPaint.setAntiAlias(true);
+        yPaint = new Paint();
+        yPaint.setAntiAlias(true);
         mBound = new Rect();
         mChartPaint = new Paint();
         mChartPaint.setAntiAlias(true);
@@ -141,15 +143,39 @@ public class SingleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setColor(lineColor);
+
+        //  绘制坐标内部的水平线
+        int hPerHeight = mHeight/6;
+
+        yPaint.setTextAlign(Paint.Align.CENTER);
+        for(int i=0;i<7;i++)
+        {
+            canvas.drawLine(30, 50+i*hPerHeight, mWidth-10, 50+i*hPerHeight, yPaint);
+        }
+
+
+        // 绘制 Y 轴坐标
+
+        //y 点坐标
+        String[] yPointString = new String[]{"3500","3000","2500","2000","1500","1000","500","0"};
+
+        Paint.FontMetrics metrics =yPaint.getFontMetrics();
+        yPaint.setTextSize(35);
+        int descent = (int)metrics.descent;
+        yPaint.setTextAlign(Paint.Align.RIGHT);
+        for(int i=0;i<yPointString.length;i++)
+        {
+            canvas.drawText(yPointString[i], 80, 30+i*hPerHeight+descent, yPaint);
+        }
+        xPaint.setColor(lineColor);
         for (int i = 0; i < 12; i++) {
 
             //画数字
-            mPaint.setTextSize(35);
-            mPaint.setTextAlign(Paint.Align.CENTER);
-            mPaint.getTextBounds(String.valueOf(i + 1) + "", 0, String.valueOf(i).length(), mBound);
-            canvas.drawText(String.valueOf(i + 1) + "月", mStartWidth - mBound.width() * 1 / 2,
-                mHeight - 60 + mBound.height() * 1 / 2, mPaint);
+            xPaint.setTextSize(35);
+            xPaint.setTextAlign(Paint.Align.CENTER);
+            xPaint.getTextBounds(String.valueOf(i + 1) + "", 0, String.valueOf(i).length(), mBound);
+            canvas.drawText(String.valueOf(i + 1) + "月", mStartWidth,
+                mHeight - 60 + mBound.height() * 1 / 2, xPaint);
             mStartWidth += getWidth() / 13;
         }
 
